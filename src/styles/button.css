@@ -1,0 +1,16 @@
+.button {
+    cursor: pointer;
+}
+
+.button.search {
+    background: none;
+    width: 35px;
+    height: 35px;
+    border: solid #8d8a89 1px;
+    border-radius: 0 10px 10px 0;
+    border-left: none;
+    transition: all 0.2s;
+}
+.button.search:hover {
+    background: #b4b3b362
+}
