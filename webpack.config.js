@@ -54,7 +54,7 @@ module.exports = {
         },
         compress: false,
         hot: true,
-        port: 3001
+        port: 3000
     },
     plugins: [
         // new CopyPlugin({

@@ -25,7 +25,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    margin: 30px 0 0 0;
 }
 .thumbnail img {
     width: 300px;
+    
 }
