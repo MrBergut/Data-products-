@@ -1,4 +1,6 @@
-import Search from '../components/Search';
+import React from 'react';
+
+import Link from '@mui/material/Link';
 
 import logo from '../assets/logo.png';
 import useravatar from '../assets/useravatar.png';
@@ -13,7 +15,9 @@ export default function Header(){
                 <h2 className='header-logo-text'>CPU store</h2>
             </div>
             <div className='header-search'>
-                <Search />
+                <Link variant='inherit' underline='hover' color='primary' sx={{ cursor: 'pointer', margin: 2 }}>About Us</Link>
+                <Link variant='inherit' underline='hover' color='primary' sx={{ cursor: 'pointer', margin: 2 }}>Documentation</Link>
+                <Link variant='inherit' underline='hover' color='primary' sx={{ cursor: 'pointer', margin: 2 }}>Contact Information</Link>
             </div>
             <div className='user'>
                 <img className='user-avatar' src={useravatar} alt='useravatar' width='40px'/>
