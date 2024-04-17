@@ -1,7 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 .priceandrating {
     display: flex;
@@ -30,5 +30,4 @@
 }
 .thumbnail img {
     width: 300px;
-    
 }
