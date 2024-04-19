@@ -4,7 +4,7 @@
 
 .button.search {
     background: none;
-    width: 35px;
+    width: 28px;
     height: 28px;
     border: solid #8d8a89 1px;
     border-radius: 0 5px 5px 0;
@@ -13,7 +13,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 0;
 }
+
 .button.search:hover {
     background: #b4b3b362
 }

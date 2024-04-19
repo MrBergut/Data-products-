@@ -7,11 +7,11 @@ import Rating from '@mui/material/Rating';
 
 import '../styles/card.css';
 
-export default function CardComponent({id = '', title = '', description = '', price = 0, discountPercentage = 0, rating = 0, stock = 0, brand = '', category = '', thumbnail = ''}) {
+export default function CardComponent({ id = '', title = '', description = '', price = 0, discountPercentage = 0, rating = 0, stock = 0, brand = '', category = '', thumbnail = '' }) {
     return (
         <Card className='card' sx={{ width: 400, minheight: 500, margin: 4 }}>
             <div className='thumbnail'>
-                <img src={thumbnail}  alt={thumbnail} />
+                <img src={thumbnail} alt={thumbnail} />
             </div>
             <CardHeader className='cardheader' title={title} subheader={description}/>
             <div className='priceandrating'>
@@ -23,6 +23,6 @@ export default function CardComponent({id = '', title = '', description = '', pr
                     <p>Buy</p>
                 </Button>
             </div>
-        </Card>     
+        </Card>
     );
 }

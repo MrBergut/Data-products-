@@ -1,20 +1,20 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export default function BasicSelect({ onChange }) {
     const [limit, setLimit] = useState(12)
 
-    const handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         const newLimit = e.target.value;
         setLimit(newLimit)
         onChange(newLimit)
-    };
+    }, [onChange]);
 
     
     return (
