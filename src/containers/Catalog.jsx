@@ -1,5 +1,6 @@
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
+import  ButtonMUI  from '@mui/material/Button';
 
 import Search from '../components/Search';
 import Card from '../components/Card';
@@ -8,7 +9,8 @@ import BasicSelect from '../components/BasicSelect';
 import { useSearchParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import '../styles/catalog.css'
+import '../styles/catalog.css';
+import Button from '../components/Button';
 
 export default function Catalog(props) {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -49,6 +51,11 @@ export default function Catalog(props) {
         setIsLoading(false)
     }, [limit, page])
 
+    const refreshCatalog = useCallback(() => {
+        getProductsList();
+        console.log('Обновление каталога...')
+    }, []);
+
     useEffect(() => {
         getProductsList()
     }, [limit, page])
@@ -81,6 +88,11 @@ export default function Catalog(props) {
     return (
         <div className='catalog'>
             <div className='searchandsortingandlimit'>
+                <div className='addbutton'>
+                    <ButtonMUI variant='contained' sx={{ height: 28, width: 90, marginLeft: 4 }} >
+                        Добавить
+                    </ButtonMUI>
+                </div>
                 <div className='buttongroups'>
                     <p>Показать:</p>
                     <BasicSelect value={limit} onChange={setLimitHandler} />
@@ -91,13 +103,12 @@ export default function Catalog(props) {
             </div>
             {spinner || (<>
                 <div className='catalog'>
-                    {products.map(item => <Card key={item.id} {...item} />)}
+                    {products.map(item => <Card key={item.id} {...item} refreshCatalog={refreshCatalog} />)}
                 </div>
                 <div className='paginator'>
                     <Pagination count={totalPages} page={page} onChange={setPageHandler} variant="outlined" shape="rounded" />
                 </div>
             </>)}
         </div>
-
     )
 }
