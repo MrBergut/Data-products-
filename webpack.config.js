@@ -52,9 +52,10 @@ module.exports = {
             directory: path.join(__dirname, 'build'),
             watch: true
         },
+        historyApiFallback: true,
         compress: false,
         hot: true,
-        port: 3000
+        port: 3002
     },
     plugins: [
         // new CopyPlugin({

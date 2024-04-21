@@ -12,7 +12,7 @@ export default function Header() {
         <header className='header'>
             <div className='headerLogo'>
                 <img src={logo} alt='logo' width='60px' />
-                <h2 className='header-logo-text'>CPU store</h2>
+                <h1 className='header-logo-text'>Different stuff</h1>
             </div>
             <div className='header-search'>
                 <Link variant='inherit' underline='hover' color='primary' sx={{ cursor: 'pointer', margin: 2 }}>About Us</Link>
