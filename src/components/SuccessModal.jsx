@@ -18,7 +18,7 @@ const style = {
     p: 4,
 };
 
-export default function SuccessModal({ open, onClose }) {
+export default function SuccessModal({ open, onClose, message }) {
     const handleClose = () => {
         onClose()
     }
@@ -32,7 +32,7 @@ export default function SuccessModal({ open, onClose }) {
         >
             <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Успешно удалено
+                    {message}
                 </Typography>
                 <Button onClick={handleClose} variant='contained' color='primary'>ОК</Button>
             </Box>

@@ -55,7 +55,7 @@ module.exports = {
         historyApiFallback: true,
         compress: false,
         hot: true,
-        port: 3002
+        port: 3000
     },
     plugins: [
         // new CopyPlugin({

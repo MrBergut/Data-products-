@@ -3,6 +3,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Input from './Input';
+
+import { useState } from 'react';
+import InputFileUpload from './InputFileUpload';
+
+import '../styles/createmodal.css'
 
 const style = {
     position: 'absolute',
@@ -16,15 +22,24 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+export default function CreateModal({ open, onClose, onCreate }) {
+    const [title, setTitle] = useState('')
+    const [description, setDescriprion] = useState('')
+    const [price, setPrice] = useState('')
+    const isFormValid = title.trim() !== '' && description.trim() !== '' && price.trim() !== '';
+
+    const handleCreate = () => {
+        if (isFormValid) {
+            onCreate()
+            onClose()
+            console.log(`Создана карточка с данными: название: ${title}, описание: ${description}, цена: ${price}$ `)
+        }
+    }
 
     return (
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={onClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -32,9 +47,23 @@ export default function BasicModal() {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Создать карточку
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
-                </Typography>
+                <div className='description'>
+                    <InputFileUpload></InputFileUpload>
+                    <p>Название</p>
+                    <Input className='createmodalinput' placeholder='Название' value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <p>Описание</p>
+                    <Input className='createmodalinput' placeholder='Описание' value={description} onChange={(e) => setDescriprion(e.target.value)} />
+                    <p>Цена</p>
+                    <Input className='createmodalinput' type='number' placeholder='Цена' value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <div className='createbutton'>
+                        <Button variant='text' onClick={onClose} size='small' sx={{ color: '#000', marginRight: 1 } }>
+                            Отмена
+                        </Button>
+                        <Button variant='contained' size='small' onClick={handleCreate} disabled={!isFormValid}>
+                            Создать
+                        </Button>
+                    </div>
+                </div>
             </Box>
         </Modal>
     );

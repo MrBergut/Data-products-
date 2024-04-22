@@ -15,12 +15,14 @@
     padding: 2px 0;
 }
 
-.button {
+.buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
 }
 
-.button p {
+.buttons p {
     font-size: 20px;
 }
 

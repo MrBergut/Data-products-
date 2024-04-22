@@ -1,6 +1,6 @@
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import  ButtonMUI  from '@mui/material/Button';
+import ButtonMUI from '@mui/material/Button';
 
 import Search from '../components/Search';
 import Card from '../components/Card';
@@ -11,6 +11,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import '../styles/catalog.css';
 import Button from '../components/Button';
+import CreateModal from '../components/CreateModal';
+import SuccessModal from '../components/SuccessModal';
 
 export default function Catalog(props) {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -21,6 +23,9 @@ export default function Catalog(props) {
     const [isLoading, setIsLoading] = useState(true)
     const [totalPages, setTotalPages] = useState(1)
     const isInitialMount = useRef(true)
+
+    const [openCreateModal, setOpenCreateModal] = useState(false)
+    const [openSuccessModal, setOpenSuccessModal] = useState(false)
 
     const spinner = isLoading ? <CircularProgress /> : null
 
@@ -50,6 +55,31 @@ export default function Catalog(props) {
         setTotalPages(Math.ceil(productsData.total / (limit)))
         setIsLoading(false)
     }, [limit, page])
+
+    const handleOpenCreateModal = useCallback(() => {
+        setOpenCreateModal(true)
+    },)
+
+
+    const handleCreate = useCallback(async (productsData) => {
+        setOpenCreateModal(false)
+        console.log('Создание продукта:', productsData)
+        suсcessResponse()
+    }, [])
+
+    const suсcessResponse = useCallback(() => {
+        console.log('Ответ успешен!')
+        setOpenSuccessModal(true)
+    }, [handleCreate])
+
+    const failResponse = () => {
+        alert('Не удалось') // не будем делать модалку, так как на этом API не может быть провала
+    }
+
+    const closeSuccessModal = useCallback(() => {
+        refreshCatalog()
+        setOpenSuccessModal(false);
+    }, [])
 
     const refreshCatalog = useCallback(() => {
         getProductsList();
@@ -86,29 +116,33 @@ export default function Catalog(props) {
     }, [])
 
     return (
-        <div className='catalog'>
-            <div className='searchandsortingandlimit'>
-                <div className='addbutton'>
-                    <ButtonMUI variant='contained' sx={{ height: 28, width: 90, marginLeft: 4 }} >
-                        Добавить
-                    </ButtonMUI>
+        <>
+            <SuccessModal open={openSuccessModal} onClose={closeSuccessModal} message='Успешно создано' />
+            <CreateModal open={openCreateModal} onClose={() => setOpenCreateModal(false)} onCreate={handleCreate} />
+            <div className='catalog'>
+                <div className='searchandsortingandlimit'>
+                    <div className='addbutton'>
+                        <ButtonMUI variant='contained' sx={{ height: 28, width: 90, marginLeft: 4 }} onClick={handleOpenCreateModal} >
+                            Добавить
+                        </ButtonMUI>
+                    </div>
+                    <div className='buttongroups'>
+                        <p>Показать:</p>
+                        <BasicSelect value={limit} onChange={setLimitHandler} />
+                    </div>
+                    <div className='search'>
+                        <Search onSearch={searchHandler} />
+                    </div>
                 </div>
-                <div className='buttongroups'>
-                    <p>Показать:</p>
-                    <BasicSelect value={limit} onChange={setLimitHandler} />
-                </div>
-                <div className='search'>
-                    <Search onSearch={searchHandler} />
-                </div>
+                {spinner || (<>
+                    <div className='catalog'>
+                        {products.map(item => <Card key={item.id} {...item} refreshCatalog={refreshCatalog} />)}
+                    </div>
+                    <div className='paginator'>
+                        <Pagination count={totalPages} page={page} onChange={setPageHandler} variant="outlined" shape="rounded" />
+                    </div>
+                </>)}
             </div>
-            {spinner || (<>
-                <div className='catalog'>
-                    {products.map(item => <Card key={item.id} {...item} refreshCatalog={refreshCatalog} />)}
-                </div>
-                <div className='paginator'>
-                    <Pagination count={totalPages} page={page} onChange={setPageHandler} variant="outlined" shape="rounded" />
-                </div>
-            </>)}
-        </div>
+        </>
     )
 }
