@@ -1,21 +1,17 @@
 import Input from './Input';
 import Button from './Button';
 
-import { useState, useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 
 import searchlogo from '../assets/icons8-поиск-30.svg'
 import '../styles/search.css';
 
 let timeoutID = undefined
 
-export default function Search({ onSearch }) {
-    const [inputSearch, setInputSearch] = useState('');
-    const inputSearchText = useRef(inputSearch)
-    inputSearchText.current = inputSearch
-
+export default function Search({ value = '', onSearch }) {
     const handleInputChange = useCallback((e) => {
-        setInputSearch(e.target.value)
-        const searchString = inputSearchText.current.trim()
+        onSearch(e.target.value)
+        const searchString = e.target.value
         if (searchString.length > 2) {
             clearTimeout(timeoutID)
             timeoutID = setTimeout(() => onSearch(searchString), 300)
@@ -23,9 +19,8 @@ export default function Search({ onSearch }) {
     }, []);
 
     const confirmSearch = useCallback(() => {
-        const searchString = inputSearchText.current.trim()
-        onSearch(searchString)
-    }, [confirmSearch]);
+        onSearch(value)
+    }, []);
 
     const handleKeyDown = useCallback((e) => {
         if (e.key == 'enter') {
@@ -39,7 +34,7 @@ export default function Search({ onSearch }) {
                 id='searchInput'
                 placeholder='поиск'
                 type='text'
-                value={inputSearch}
+                value={value}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown} />
             <Button type='search' onClick={confirmSearch}>

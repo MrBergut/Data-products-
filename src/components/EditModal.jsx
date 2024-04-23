@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Input from './Input';
 
-import { useState, useEffect, useCallback } from 'react';
-import InputFileUpload from './InputFileUpload';
+import { useState, useEffect } from 'react';
 
 import '../styles/editmodal.css';
 
@@ -37,13 +36,12 @@ export default function EditModal({ open, onClose, cardData, onEdit }) {
         }
     }, [cardData]);
 
-    const handleEdit = useCallback(() => {
+    const handleEdit = () => {
         if (isFormValid) {
-            console.log('Изменения сохранены:', { title: title, description, price });
-            onEdit({ title: title, description, price });
+            onEdit({ title: title, description: description, price: price });
             onClose();
         }
-    }, [isFormValid]);
+    };
 
     return (
         <Modal
@@ -57,7 +55,6 @@ export default function EditModal({ open, onClose, cardData, onEdit }) {
                     Редактировать карточку
                 </Typography>
                 <div className='description'>
-                    <InputFileUpload />
                     <p>Название</p>
                     <Input
                         className='editmodalinput'

@@ -5,14 +5,13 @@ import ButtonMUI from '@mui/material/Button';
 import Search from '../components/Search';
 import Card from '../components/Card';
 import BasicSelect from '../components/BasicSelect';
+import CreateModal from '../components/CreateModal';
+import SuccessModal from '../components/SuccessModal';
 
 import { useSearchParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import '../styles/catalog.css';
-import Button from '../components/Button';
-import CreateModal from '../components/CreateModal';
-import SuccessModal from '../components/SuccessModal';
 
 export default function Catalog(props) {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -30,9 +29,7 @@ export default function Catalog(props) {
     const spinner = isLoading ? <CircularProgress /> : null
 
     const getProductsByQuery = useCallback(async () => {
-        if (query.trim() === '') {
-            setLimit(12);
-        } else {
+        if (query.trim() !== '') {
             const url = new URL('https://dummyjson.com/products/search')
             url.searchParams.set('q', query)
             setSearchParams({ q: query })
@@ -63,14 +60,19 @@ export default function Catalog(props) {
 
     const handleCreate = useCallback(async (productsData) => {
         setOpenCreateModal(false)
+        const response = await fetch('https://dummyjson.com/products/add', { method: "POST", body: JSON.stringify(productsData) })
+        if (response.ok) {
+            suсcessResponse()
+        } else {
+            failResponse()
+        }
         console.log('Создание продукта:', productsData)
-        suсcessResponse()
-    }, [])
+    }, [suсcessResponse])
 
     const suсcessResponse = useCallback(() => {
         console.log('Ответ успешен!')
         setOpenSuccessModal(true)
-    }, [handleCreate])
+    }, [])
 
     const failResponse = () => {
         alert('Не удалось') // не будем делать модалку, так как на этом API не может быть провала
@@ -87,13 +89,15 @@ export default function Catalog(props) {
     }, []);
 
     useEffect(() => {
+        //TODO: Делаешь тут setQuery и в нем сбрасываешь q на пустую строку
+        setQuery('')
         getProductsList()
     }, [limit, page])
 
     useEffect(() => {
-        if (!isInitialMount.current) {
-            getProductsByQuery()
-        }
+        //if (!isInitialMount.current) {
+        getProductsByQuery()
+        //}
     }, [query])
 
     const setLimitHandler = (newLimit) => {
@@ -131,7 +135,7 @@ export default function Catalog(props) {
                         <BasicSelect value={limit} onChange={setLimitHandler} />
                     </div>
                     <div className='search'>
-                        <Search onSearch={searchHandler} />
+                        <Search value={query} onSearch={searchHandler} />
                     </div>
                 </div>
                 {spinner || (<>

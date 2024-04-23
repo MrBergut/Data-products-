@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Input from './Input';
 
-import { useState } from 'react';
-import InputFileUpload from './InputFileUpload';
+import { useState, useEffect } from 'react';
 
 import '../styles/createmodal.css'
 
@@ -28,9 +27,17 @@ export default function CreateModal({ open, onClose, onCreate }) {
     const [price, setPrice] = useState('')
     const isFormValid = title.trim() !== '' && description.trim() !== '' && price.trim() !== '';
 
+
+    //TODO: Делаешь тут юзэффект, зависящий от open и в нем setTitle/setDescriprion/setPrice
+    useEffect(() => {
+        setTitle('')
+        setDescriprion('')
+        setPrice('')
+    }, [open])
+
     const handleCreate = () => {
         if (isFormValid) {
-            onCreate()
+            onCreate({ title, description, price, })
             onClose()
             console.log(`Создана карточка с данными: название: ${title}, описание: ${description}, цена: ${price}$ `)
         }
@@ -48,7 +55,6 @@ export default function CreateModal({ open, onClose, onCreate }) {
                     Создать карточку
                 </Typography>
                 <div className='description'>
-                    <InputFileUpload></InputFileUpload>
                     <p>Название</p>
                     <Input className='createmodalinput' placeholder='Название' value={title} onChange={(e) => setTitle(e.target.value)} />
                     <p>Описание</p>
@@ -56,7 +62,7 @@ export default function CreateModal({ open, onClose, onCreate }) {
                     <p>Цена</p>
                     <Input className='createmodalinput' type='number' placeholder='Цена' value={price} onChange={(e) => setPrice(e.target.value)} />
                     <div className='createbutton'>
-                        <Button variant='text' onClick={onClose} size='small' sx={{ color: '#000', marginRight: 1 } }>
+                        <Button variant='text' onClick={onClose} size='small' sx={{ color: '#000', marginRight: 1 }}>
                             Отмена
                         </Button>
                         <Button variant='contained' size='small' onClick={handleCreate} disabled={!isFormValid}>
