@@ -37,7 +37,6 @@ export default function CreateModal({ open, onClose, onCreate }) {
         if (isFormValid) {
             onCreate({ title: title, description: description, price: price })
             onClose()
-            console.log(`Создана карточка с данными: название: ${title}, описание: ${description}, цена: ${price}$ `)
         }
     }
 
