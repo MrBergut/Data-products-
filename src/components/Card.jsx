@@ -26,6 +26,7 @@ export default function CardComponent({ id = '', title = '', description = '', p
         const response = await fetch(`https://dummyjson.com/products/${id}`, { method: 'DELETE' })
         if (response.ok) {
             suсcessDeleteResponse()
+            console.log(`карточка ${id} удалена`)
         } else {
             failDeleteResponse()
         }
@@ -37,6 +38,7 @@ export default function CardComponent({ id = '', title = '', description = '', p
         const response = await fetch(`https://dummyjson.com/products/${id}`, { method: 'PUT', body: JSON.stringify(cardData) })
         if (response.ok) {
             suсcessEditResponse()
+            console.log('Изменения сохранены', cardData)
         } else {
             failEditResponse()
         }
@@ -48,8 +50,7 @@ export default function CardComponent({ id = '', title = '', description = '', p
         setOpenSuccessDeleteModal(true)
     }, [handleDelete])
 
-    const suсcessEditResponse = useCallback((editedData) => {
-        console.log('Изменения сохранены:', editedData)
+    const suсcessEditResponse = useCallback(() => {
         setOpenSuccessEditModal(true)
     }, [handleEdit])
 
