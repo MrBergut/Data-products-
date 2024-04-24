@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { SourceMapDevToolPlugin } = require('webpack');
 
 const ENV = process.env.NODE_ENV === "production" ? "production" : "development"
 
@@ -27,8 +28,8 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                             "@babel/preset-env",
-                            ["@babel/preset-react", {"runtime": "automatic"}]
+                            "@babel/preset-env",
+                            ["@babel/preset-react", { "runtime": "automatic" }]
                         ],
                     }
                 }
@@ -37,14 +38,14 @@ module.exports = {
                 test: /\.(jpg|jpeg|gif|png|svg|webp)$/,
                 exclude: /node_modules/,
                 use: {
-                  loader: 'file-loader',
-                  options: {
-                    name: '[name].[ext]',
-                    publicPath: 'images',
-                    outputPath: 'images',
-                  }
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        publicPath: 'images',
+                        outputPath: 'images',
+                    }
                 }
-              },
+            },
         ],
     },
     devServer: {
@@ -58,17 +59,12 @@ module.exports = {
         port: 3000
     },
     plugins: [
-        // new CopyPlugin({
-        //     patterns: [
-        //         {
-        //             context: path.resolve(__dirname,"src"),
-        //             from: "./*.html",
-        //         }
-        //     ],
-        // }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin(),
+        new SourceMapDevToolPlugin({
+            filename: "[file].map"
+        }),
     ],
     resolve: {
         extensions: ['.js', '.jsx']

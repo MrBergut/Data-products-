@@ -27,8 +27,6 @@ export default function CreateModal({ open, onClose, onCreate }) {
     const [price, setPrice] = useState('')
     const isFormValid = title.trim() !== '' && description.trim() !== '' && price.trim() !== '';
 
-
-    //TODO: Делаешь тут юзэффект, зависящий от open и в нем setTitle/setDescriprion/setPrice
     useEffect(() => {
         setTitle('')
         setDescriprion('')
@@ -37,7 +35,7 @@ export default function CreateModal({ open, onClose, onCreate }) {
 
     const handleCreate = () => {
         if (isFormValid) {
-            onCreate({ title, description, price, })
+            onCreate({ title: title, description: description, price: price })
             onClose()
             console.log(`Создана карточка с данными: название: ${title}, описание: ${description}, цена: ${price}$ `)
         }

@@ -12,15 +12,13 @@ export default function Search({ value = '', onSearch }) {
     const handleInputChange = useCallback((e) => {
         onSearch(e.target.value)
         const searchString = e.target.value
-        if (searchString.length > 2) {
-            clearTimeout(timeoutID)
-            timeoutID = setTimeout(() => onSearch(searchString), 300)
-        }
+        clearTimeout(timeoutID);
+        timeoutID = setTimeout(() => onSearch(searchString), 300);
     }, []);
 
     const confirmSearch = useCallback(() => {
         onSearch(value)
-    }, []);
+    }, [value, onSearch]);
 
     const handleKeyDown = useCallback((e) => {
         if (e.key == 'enter') {

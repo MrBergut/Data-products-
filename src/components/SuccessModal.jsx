@@ -22,7 +22,6 @@ export default function SuccessModal({ open, onClose, message }) {
     const handleClose = () => {
         onClose()
     }
-    console.log('open', open)
     return (
         <Modal
             open={open}

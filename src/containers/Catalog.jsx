@@ -17,7 +17,7 @@ export default function Catalog(props) {
     const [searchParams, setSearchParams] = useSearchParams()
     const [products, setProducts] = useState([])
     const [limit, setLimit] = useState(Number(searchParams.get('limit')) || 12)
-    const [query, setQuery] = useState(searchParams.get('q') ?? '')
+    const [query, setQuery] = useState(searchParams.get('q')?.length > 2 ? searchParams.get('q') : '')
     const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
     const [isLoading, setIsLoading] = useState(true)
     const [totalPages, setTotalPages] = useState(1)
@@ -29,10 +29,10 @@ export default function Catalog(props) {
     const spinner = isLoading ? <CircularProgress /> : null
 
     const getProductsByQuery = useCallback(async () => {
-        if (query.trim() !== '') {
+        setSearchParams({ q: query })
+        if (query.trim() !== '' && query.trim().length > 2) {
             const url = new URL('https://dummyjson.com/products/search')
             url.searchParams.set('q', query)
-            setSearchParams({ q: query })
             setIsLoading(true)
             const productsData = await fetch(url).then(res => res.json())
             setProducts(productsData.products)
@@ -70,7 +70,6 @@ export default function Catalog(props) {
     }, [suсcessResponse])
 
     const suсcessResponse = useCallback(() => {
-        console.log('Ответ успешен!')
         setOpenSuccessModal(true)
     }, [])
 
@@ -89,16 +88,27 @@ export default function Catalog(props) {
     }, []);
 
     useEffect(() => {
-        //TODO: Делаешь тут setQuery и в нем сбрасываешь q на пустую строку
-        setQuery('')
-        getProductsList()
+        if (!isInitialMount.current) {
+            setQuery('')
+            getProductsList()
+        }
     }, [limit, page])
 
     useEffect(() => {
-        //if (!isInitialMount.current) {
-        getProductsByQuery()
-        //}
+        if (!isInitialMount.current) {
+            setLimit(12)
+            setPage(1)
+            getProductsByQuery()
+        }
     }, [query])
+
+    useEffect(() => {
+        if (query) {
+            getProductsByQuery()
+        } else {
+            getProductsList()
+        }
+    }, [])
 
     const setLimitHandler = (newLimit) => {
         setLimit(newLimit)

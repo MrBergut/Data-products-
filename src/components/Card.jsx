@@ -45,12 +45,10 @@ export default function CardComponent({ id = '', title = '', description = '', p
 
 
     const suсcessDeleteResponse = useCallback(() => {
-        console.log('Ответ успешен!')
         setOpenSuccessDeleteModal(true)
     }, [handleDelete])
 
     const suсcessEditResponse = useCallback((editedData) => {
-        console.log('Ответ успешен!')
         console.log('Изменения сохранены:', editedData)
         setOpenSuccessEditModal(true)
     }, [handleEdit])
@@ -68,13 +66,11 @@ export default function CardComponent({ id = '', title = '', description = '', p
     const closeSuccessDeleteModal = useCallback(() => {
         refreshCatalog()
         setOpenSuccessDeleteModal(false);
-        console.log('closeSuccessDeleteModal')
     }, [])
 
     const closeSuccessEditModal = useCallback(() => {
         refreshCatalog()
         setOpenSuccessEditModal(false);
-        console.log('closeSuccessEditModal')
     }, [])
 
 

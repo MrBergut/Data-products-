@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 
 export default function BasicSelect({ value, onChange }) {
     const handleChange = useCallback((e) => {
